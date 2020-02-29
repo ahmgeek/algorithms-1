@@ -1,6 +1,9 @@
 package tree
 
-import "fmt"
+import (
+    "algorithms/util"
+    "fmt"
+)
 
 /**
  * Binray Tree Implementation with int nodes values
@@ -8,18 +11,18 @@ import "fmt"
  *
  * the implementation needs to change
  *
- * type Int int
+ * type <TypeName> <type>
  *
- * func (i *Int) Less(than Int) bool {
- *     return i < than
+ * func (t *TypeName) Less(than TypeName) bool {
+ *     return // Do the comparison Here
  * }
  *
- * func (i *Int) Less(than Int) bool {
- *     return i < than
+ * func (i *TypeName) Less(than TypeName) bool {
+ *     return // Do the comparison Here
  * }
  *
  * type TreeNode struct {
- *     Val *Int
+ *     Val *TypeName
  * }
  *
  * items = []Item{1,2,3,4}
@@ -51,31 +54,16 @@ func (bst *BinarySearchTree) Insert(item interface{}) {
     }
 }
 
-func (bst *BinarySearchTree) Minimum() Node {
-    return bst.Root.Minimum()
-}
-
-func (bst *BinarySearchTree) Maximum() Node {
-    return bst.Root.Maximum()
-}
-
-func (bst *BinarySearchTree) Replace(src, dest *BinarySearchNode) {
-
-}
-
-func (bst *BinarySearchTree) Delete(item *BinarySearchNode) {
-
-}
-
 func (bst *BinarySearchTree) Size() int {
-    return 0
+    return bst.Root.Size()
 }
 
-func (bst *BinarySearchTree) BFS(val interface{}) Node {
+func (t *BinarySearchTree) Join(other *BinarySearchTree) *BinarySearchTree {
     return nil
 }
 
-func (bst *BinarySearchTree) DFS(val interface{}) Node {
+// Invert
+func (t *BinarySearchTree) Invert() *BinarySearchTree {
     return nil
 }
 
@@ -170,5 +158,61 @@ func (n *BinarySearchNode) Maximum() Node {
 }
 
 func (n *BinarySearchNode) String() string {
-    return fmt.Sprintf("%d\n", n.Val)
+    if n == nil {
+        return `"nil"`
+    }
+    return fmt.Sprintf(`{"Val": %d, "Left": %v, "Right":%v}`, n.Val, n.Left, n.Right)
+}
+
+func (n *BinarySearchNode) Size() int {
+    if n == nil {
+        return 0
+    }
+    return 1 + n.Left.Size() + n.Right.Size()
+}
+
+func (n *BinarySearchNode) Height() int {
+    if n == nil {
+        return 0
+    }
+    return 1 + util.Max(n.Left.Height(), n.Right.Height())
+}
+
+func (n *BinarySearchNode) BFS(value interface{}) Node {
+    return n
+}
+
+func (n *BinarySearchNode) DFS(item interface{}) Node {
+    return n
+}
+
+// A tree is Continuous tree if in each root to leaf path,
+// absolute difference between keys of two adjacent is 1.
+// We are given a binary tree, we need to check if tree is continuous or not.
+// Input :              3
+//                     / \
+//                    2   4
+//                   / \   \
+//                  1   3   5
+// Output: "Yes"
+// 3->2->1 every two adjacent node's absolute difference is 1
+// 3->2->3 every two adjacent node's absolute difference is 1
+// 3->4->5 every two adjacent node's absolute difference is 1
+// Input :              7
+//                     / \
+//                    5   8
+//                   / \   \
+//                  6   4   10
+// Output: "No"
+// 7->5->6 here absolute difference of 7 and 5 is not 1.
+// 7->5->4 here absolute difference of 7 and 5 is not 1.
+// 7->8->10 here absolute difference of 8 and 10 is not 1.
+func (n *BinarySearchNode) IsContinous() bool {
+    return false
+}
+
+// A tree can be folded if left and right subtrees of the tree are structure
+// wise mirror image of each other. An empty tree is considered as foldable.
+func (n *BinarySearchNode) IsFoldable() bool {
+    return false
 }
